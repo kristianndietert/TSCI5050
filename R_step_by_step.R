@@ -20,13 +20,13 @@
 # because we are using regular comments instead of #' comments
 debug <- 0;
 knitr::opts_chunk$set(echo=debug>-1, warning=debug>0, message=debug>0);
-library(ggplot2);
-library(dplyr);
-library(GGally);
-library(rio);
-library(pander);
+library(ggplot2);#visualization&plotting
+library(dplyr);#data manipulation/processing
+library(GGally);#adds to the capabilities of ggplot -- more types of plots
+library(rio);#ability to save dataframes in different formats (word/excel etc)
+library(pander);#reverse engineer for table making
 library(printr);
-options(max.print=42);
+options(max.print=42); #sets the limit of how many lines are printed in console
 panderOptions('table.split.table',Inf); panderOptions('table.split.cells',Inf);
 whatisthis <- function(xx){
   list(class=class(xx),info=c(mode=mode(xx),storage.mode=storage.mode(xx)
@@ -42,7 +42,9 @@ whatisthis <- function(xx){
 #' expressions from function arguments.
 
 #+ assignment_operator
-
+foo <- 365;
+bar <- foo;
+bar <- foo <- 365;
 #' It's not a formal rule, it's rarely even written down, but `foo`, `baz`,
 #' `bat`, etc. are throw-away variables people use for testing. If you need more
 #' test variables, just make up three letter ones that start with `b`.
@@ -67,7 +69,12 @@ whatisthis <- function(xx){
 #' `exp()`, `sqrt()`
 
 #+ assignment_numeric
-
+foo <- 2 + 2; foo;
+baz <- 5-2; baz;
+bat <- 72/6; bat;
+bar<-5*5; bar;
+var<-log(67); var;
+whatisthis(bar);
 #' Character strings. Create these by wrapping single (`'`) or double (`"`)
 #' quotes around the value.
 
