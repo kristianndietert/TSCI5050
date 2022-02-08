@@ -213,7 +213,7 @@ table(foo)
 table(bob)
 summary(bob)
 #creating a new kind of vector to use these explorations better
-futurama <- sample(1:10,30,replace = TRUE) #this is a sequence of 1-10 running replacements 30 times and the table reports that randomly -- how random integer generators work
+futurama <- sample(1:10,30,replace = TRUE) #sequence of 1-10; drawing 30 times, replace fxn allows repeats after 10 have been drawn
 table(futurama)
 futurama <- sample(1:10,30,replace = TRUE)*1000
 table(futurama)
