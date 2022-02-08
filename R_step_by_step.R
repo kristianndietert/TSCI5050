@@ -69,21 +69,29 @@ bar <- foo <- 365;
 #' `exp()`, `sqrt()`
 
 #+ assignment_numeric
-foo <- 2 + 2; foo;
-baz <- 5-2; baz;
-bat <- 72/6; bat;
-bar<-5*5; bar;
-var<-log(67); var;
+print(foo <- 2 + 2); foo;
+print(baz <- 5-2); baz;
+print(bat <- 72/6); bat;
+print(bar<-5*5); bar;
+print(var<-log(67)); var;
 whatisthis(bar);
+log(((var^2)*(foo+baz)/bar)-bat) 
 #' Character strings. Create these by wrapping single (`'`) or double (`"`)
 #' quotes around the value.
 
 #+ assignment_string
+fry <- "Do Not Panic";
+j <-'Do Not Panic';
+philip <- "Don't Panic";
+professor <- 'The "Heart of Gold" comes equipped with heated leather seats and an infinite improbability drive';
+leela <- '42';
 
 #' Logical values are `TRUE` or `FALSE`. Can also be created using `>`, `<`,
 #' `==`, `!=`, `>=`, `<=`
 
 #+ assignment_logical
+fry == philip
+fry != leela
 
 #' Missing values are represented by `NA` (no quotes for any of these). Null
 #' values are _not_ the same as missing and they are represented by `NULL`. In
@@ -94,6 +102,9 @@ whatisthis(bar);
 #' functions or converted from a character string using `as.Date()`.
 
 #+ assignment_datetime
+Sys.Date()
+Sys.time()
+as.Date(70467, origin = "1986-08-04") #this is in the format of number of days since the date given in m/d/y
 
 #' Factors are basically integers that have labels. They are a human-readable
 #' alternative to using integer codes for discrete data. These will make more
@@ -115,6 +126,8 @@ whatisthis(bar);
 #' same type.
 
 #+ vectors_c
+print(foo <- c(56,78,34,97,2,86))
+print(baz <- c(34,23,94,3,12,53))
 
 #' Since the default data structure in R is a `vector`, if you
 #' create some sort of simple value you are creating a `vector` even if you are
@@ -122,12 +135,15 @@ whatisthis(bar);
 #' are identical, and both return `1` when used with the `length()` function.
 
 #+ vectors_length1
-
+length(foo)
 #' If you want to create a sequence of consecutive integers, you can use the `:`
 #' operator.
 
 #+ vectors_sequence
-
+25:76
+65:38
+-32:12
+seq_len(12)
 #' In most other languages, you need to use a `for` loop in order to perform
 #' some sort of change to a series of values. In R, you often don't have to
 #' when you are working with vectors because a lot of functions (including all
@@ -136,21 +152,40 @@ whatisthis(bar);
 #' want all of them to be either the same length or length 1.
 
 #+ vectors_operators
+foo+6
+foo+baz
+foo/baz
+foo>=34
+baz<=23
+bob <- baz<=23 
 
+c(baz,foo)
+c(baz,foo,"76")
+#these work with all arithmetic operators
 #' You can assign names to some or all members of a vector when you create it.
 #' You can also assign or re-assign names later using the `names()` function.
 
 #+ vectors_names1
-
+print(zoidberg <- c(a="lobster",bb="egg",larvae="baby"))
+zoidberg["bb"]
+zoidberg[c("a","larvae")]
 #' You can also use it to see the currently assigned names.
 
 #+ vectors_names2
-
+names(zoidberg)
+names(zoidberg) <- c("more","sardines", "please") #renaming
+zoidberg
+names(zoidberg)[3]
+names(zoidberg)[1]
+names(zoidberg)[3] <- "pretty"
+names(zoidberg)[3]
+zoidberg
 #' You can subset a vector by using `[...]` with the `...` replaced by _another_
 #' vector, of integers indicating which positions you want to extract. Or you
 #' could use a vector of names.
 
 #+ vectors_subset1
+foo[3]
 
 #' If you just need a single value, use a single name or number.
 
@@ -161,17 +196,44 @@ whatisthis(bar);
 #' expressions separated by commas `,`.
 
 #+ vectors_subset3
-
+foo[c(1,2,3)]
+foo[1:3]
+foo[c(1:3,5:6)]
+baz
+bob
+baz[bob] #pulled the values less than or equal to 23
 #' Other useful functions for exploring vectors: `length()`, `summary()`,
 #' `table()`, `head()`, `tail()`, `sum()`, `diff()`, `seq_along()`.
 
 #+ vectors_explore
+summary(foo) #summary gives you as  much info as it can about the item
+summary(zoidberg)
+table(zoidberg)
+table(foo)
+table(bob)
+summary(bob)
+#creating a new kind of vector to use these explorations better
+futurama <- sample(1:10,30,replace = TRUE) #this is a sequence of 1-10 running replacements 30 times and the table reports that randomly -- how random integer generators work
+table(futurama)
+futurama <- sample(1:10,30,replace = TRUE)*1000
+table(futurama)
+futurama
+head(futurama) #first 6 elements of the vector
+tail(futurama) #last 6 elements of the vector
+diff(futurama) #difference between two consecutive values
+sum(futurama) #sum of all values
+sum(futurama,na.rm=TRUE) #omits missing values (NA) in the sum
+seq_along(futurama) #generate ID numbers unique for each element
 
 #' Here are some aggregation functions. For these, make sure to use `na.rm=T` if
 #' your vector has `NA`s in it... `max()`, `min()`, `mean()`, `median()`,
 #' `quantile()`.
 
 #+ vectors_aggregate
+
+quantile(futurama)
+quantile(futurama,na.rm=TRUE)
+
 
 #' ### Data Frames
 #'
