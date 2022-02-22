@@ -12,6 +12,11 @@
 #' number_sections: false
 #' keep_md: true
 #' fig_caption: true
+#' output:
+#'   html_document:
+#'     toc: true
+#'     toc_float: true
+#'     code_folding: show
 #' ---
 #'
 #+ init, echo=FALSE, message=FALSE, warning=FALSE
@@ -249,6 +254,62 @@ quantile(futurama,na.rm=TRUE)
 #' small datasets) `plot()`.
 
 #+ df_explore
+dim(iris) #dimensions of the dataframe, rows and columns
+nrow(iris) #number of rows
+ncol(iris) #number of columns
+names(iris) #names of the columns
+head(iris) #first 6 values -- can change number by using: head(iris,#)
+tail(iris) #last 6 values
+
+
+#' how to select rows
+#+ df_subset, results="hide"
+iris[3:20,] #leaving column blank 
+iris[c(2:10,34,40:50,34,34,34),]
+iris[-c(3:20),]
+seq_len(nrow(iris))
+sample(seq_len(nrow(iris)),10) #sampling without replacement
+sample(seq_len(nrow(iris)),250,replace=TRUE) #sampling with replacement
+
+iris0 <- iris[sample(seq_len(nrow(iris)),10),]
+dim(iris0)
+
+#' how to select columns
+#+ df_columns, error=TRUE, results="hide"
+iris[,23:29] #leaving rows blank
+iris[,c("Petal.Length","Petal.Width")]
+petalcolumnnames <- c("Petal.Length","Petal.Width") 
+iris[,petalcolumnnames]
+#iris[,c(petalcolumnnames,randoname)] -- showing how it won't pull nonexistent variable
+
+iris$Sepal.Length
+outcome <- "Sepal.Length"
+iris$outcome #can't use columns held within variable with $ 
+iris[[outcome]]
+iris[["Sepal.Length"]]
+
+#' how to select columns and rows at the same time
+#+ df_columnsandrows
+iris[3:12,petalcolumnnames]
+
+#'## Comment Types
+#'
+#'`#` This is an ordinary comment. Everything after it on the same line is not
+#'executed.
+#'
+#'`#'`This indicates that this line should be formatted as text. It must be the
+#'first two characters in that line in order to work
+#'
+#'`#+` This indicates that the following lines (until the next #' or #+) should
+#'be treated as a "code chunk". I.e. the next lines (but not this one) will be
+#'run, the code will be displayed according to your settings and the results
+#'will be displayed according to your settings.
+#'
+#'`#+` for these, you can add "chunk options" separated by commas. The first one
+#'has no name and is always the label of the chunk. E.g. df_subset. The rest
+#'need names, e.g. error=TRUE.
+
+
 
 
 
