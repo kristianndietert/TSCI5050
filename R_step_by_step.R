@@ -31,6 +31,7 @@ library(GGally);#adds to the capabilities of ggplot -- more types of plots
 library(rio);#ability to save dataframes in different formats (word/excel etc)
 library(pander);#reverse engineer for table making
 library(printr);
+library(broom)
 options(max.print=42); #sets the limit of how many lines are printed in console
 panderOptions('table.split.table',Inf); panderOptions('table.split.cells',Inf);
 whatisthis <- function(xx){
@@ -309,8 +310,31 @@ iris[3:12,petalcolumnnames]
 #'has no name and is always the label of the chunk. E.g. df_subset. The rest
 #'need names, e.g. error=TRUE.
 
+#' ## Linear Models
+#' 
+#+ linear_models
+#+ 
+example(lm) #example of a linear model
+summary(lm.D9) #summary of dataset in example
+#' library(broom) #added a library
+tidy(lm.D9) #gives small summary of dataset
+head(mtcars) #other dataset to play with
+lm(mpg~cyl+disp+qsec,mtcars) #linear model of these specific columns of dataset
+performance <- lm(mpg~cyl+disp+qsec,mtcars) #saving lm to an object
+summary(performance <- lm(mpg~cyl+disp+qsec,mtcars)) #getting stats on dataset predictions
+tidy(performance) #more "tidy" version of this data
+tidy(performance)$p.value #extracting the pvalues from that
+tidy(performance)[-1,c("estimate","p.value")] #extracting the pvalues except from the first line
+performance <- lm(mpg~cyl+disp+qsec,mtcars) %>% tidy() %>% select(c("estimate","p.value"))
+whatisthis(performance)
+performance %>%tidy() %>% select(c("estimate","p.value")) %>% slice(-1)
 
-
-
-
+#' ## Multiple Comparisons
+#' 
+#+ multiple_comparisons
+#'
+#'
+performance %>%tidy() %>% select(c("p.value")) %>% slice(-1)
+performance %>%tidy() %>% select(c("p.value")) %>% slice(-1) %>% unlist() %>% 
+  p.adjust()
 
