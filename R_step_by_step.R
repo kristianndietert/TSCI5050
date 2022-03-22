@@ -325,9 +325,8 @@ summary(performance <- lm(mpg~cyl+disp+qsec,mtcars)) #getting stats on dataset p
 tidy(performance) #more "tidy" version of this data
 tidy(performance)$p.value #extracting the pvalues from that
 tidy(performance)[-1,c("estimate","p.value")] #extracting the pvalues except from the first line
-performance <- lm(mpg~cyl+disp+qsec,mtcars) %>% tidy() %>% select(c("estimate","p.value"))
+performancedf <- lm(mpg~cyl+disp+qsec,mtcars) %>% tidy() %>% select(c("estimate","p.value")) %>% slice(-1)
 whatisthis(performance)
-performance %>%tidy() %>% select(c("estimate","p.value")) %>% slice(-1)
 
 #' ## Multiple Comparisons
 #' 
@@ -338,3 +337,11 @@ performance %>%tidy() %>% select(c("p.value")) %>% slice(-1)
 performance %>%tidy() %>% select(c("p.value")) %>% slice(-1) %>% unlist() %>% 
   p.adjust()
 
+#' ## Working With Datasets and dplyr 
+#' define location of your files
+#' 
+example1 <-list.files("C:/Users/krist/Dropbox/My PC (DESKTOP-6EA3C71)/Desktop/sample_data", full.names = TRUE) %>% sapply(import) %>% setNames(.,basename(names(.)))
+#'first part names the sample data etc as "example1" and imported the sample data, the "setnames" part simplified the names of the files 
+#' 
+example2 <- example1$Birthweight.sav
+#' renamed birthweight data to example2 in order to make it easier to work with 
