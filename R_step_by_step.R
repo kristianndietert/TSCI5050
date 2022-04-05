@@ -277,7 +277,7 @@ dim(iris0)
 
 #' how to select columns
 #+ df_columns, error=TRUE, results="hide"
-iris[,23:29] #leaving rows blank
+iris[,4:5] #leaving rows blank
 iris[,c("Petal.Length","Petal.Width")]
 petalcolumnnames <- c("Petal.Length","Petal.Width") 
 iris[,petalcolumnnames]
@@ -340,8 +340,30 @@ performance %>%tidy() %>% select(c("p.value")) %>% slice(-1) %>% unlist() %>%
 #' ## Working With Datasets and dplyr 
 #' define location of your files
 #' 
-example1 <-list.files("C:/Users/krist/Dropbox/My PC (DESKTOP-6EA3C71)/Desktop/sample_data", full.names = TRUE) %>% sapply(import) %>% setNames(.,basename(names(.)))
-#'first part names the sample data etc as "example1" and imported the sample data, the "setnames" part simplified the names of the files 
+example1 <-list.files("C:/Users/krist/Dropbox/My PC (DESKTOP-6EA3C71)/Desktop/sample_data", 
+                      full.names = TRUE) %>% sapply(import) %>% setNames(.,basename(names(.)))
+#'first part names the sample data etc as "example1" and imported the sample data,
+#' the "setnames" part simplified the names of the files 
 #' 
 example2 <- example1$Birthweight.sav
 #' renamed birthweight data to example2 in order to make it easier to work with 
+#' 
+#'the process for importing only one file
+#'"most concise way to do it"
+#'type in the name of the variable
+example2 <- import("C:/Users/krist/Dropbox/My PC (DESKTOP-6EA3C71)/Desktop/sample_data/Birthweight.sav")
+
+#' ## Intro to dplyr
+#' 
+#' mutate command: changing/transforming an entire column
+mutate(example2,AGE_Months=AGE*12) %>% head() #adding age to be reported in months
+# if wanted to merely change the column: mutate(example2,AGE=AGE*12) 
+mutate(example2,AGE_Months=AGE*12,AGE_Days=AGE_Months*30.4)
+
+table(example2$RACE) #determining how many levels exist and what their values are to be able to transform etc
+
+with(example2, case_when(RACE == 1 ~ "Caucasian", RACE == 2 ~ "Asian", RACE == 3 ~ "African American/Black", TRUE ~ as.character(RACE))) 
+# ^this "with" command tells the command with what to work with
+# This command is reassigning the numerical values in this data to these specific names
+
+mutate(example2,AGE_Months=AGE*12,AGE_Days=AGE_Months*30.4,RACE_Name=case_when(RACE == 1 ~ "Caucasian", RACE == 2 ~ "Asian", RACE == 3 ~ "African American/Black", TRUE ~ as.character(RACE))) %>% head()
