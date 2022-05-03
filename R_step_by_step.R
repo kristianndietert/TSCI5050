@@ -345,25 +345,48 @@ example1 <-list.files("C:/Users/krist/Dropbox/My PC (DESKTOP-6EA3C71)/Desktop/sa
 #'first part names the sample data etc as "example1" and imported the sample data,
 #' the "setnames" part simplified the names of the files 
 #' 
-example2 <- example1$Birthweight.sav
-#' renamed birthweight data to example2 in order to make it easier to work with 
+birthweight <- example1$Birthweight.sav
+#' renamed birthweight data to birthweight in order to make it easier to work with 
 #' 
 #'the process for importing only one file
 #'"most concise way to do it"
 #'type in the name of the variable
-example2 <- import("C:/Users/krist/Dropbox/My PC (DESKTOP-6EA3C71)/Desktop/sample_data/Birthweight.sav")
+birthweight <- import("C:/Users/krist/Dropbox/My PC (DESKTOP-6EA3C71)/Desktop/sample_data/Birthweight.sav")
 
 #' ## Intro to dplyr
 #' 
 #' mutate command: changing/transforming an entire column
-mutate(example2,AGE_Months=AGE*12) %>% head() #adding age to be reported in months
-# if wanted to merely change the column: mutate(example2,AGE=AGE*12) 
-mutate(example2,AGE_Months=AGE*12,AGE_Days=AGE_Months*30.4)
+mutate(birthweight,AGE_Months=AGE*12) %>% head() #adding age to be reported in months
+# if wanted to merely change the column: mutate(birthweight,AGE=AGE*12) 
+mutate(birthweight,AGE_Months=AGE*12,AGE_Days=AGE_Months*30.4)
 
-table(example2$RACE) #determining how many levels exist and what their values are to be able to transform etc
+table(birthweight$RACE) #determining how many levels exist and what their values are to be able to transform etc
 
-with(example2, case_when(RACE == 1 ~ "Caucasian", RACE == 2 ~ "Asian", RACE == 3 ~ "African American/Black", TRUE ~ as.character(RACE))) 
+with(birthweight, case_when(RACE == 1 ~ "Caucasian", RACE == 2 ~ "Asian", RACE == 3 ~ "African American/Black", TRUE ~ as.character(RACE))) 
 # ^this "with" command tells the command with what to work with
 # This command is reassigning the numerical values in this data to these specific names
 
-mutate(example2,AGE_Months=AGE*12,AGE_Days=AGE_Months*30.4,RACE_Name=case_when(RACE == 1 ~ "Caucasian", RACE == 2 ~ "Asian", RACE == 3 ~ "African American/Black", TRUE ~ as.character(RACE))) %>% head()
+mutate(birthweight,AGE_Months=AGE*12,AGE_Days=AGE_Months*30.4,RACE_Name=case_when(RACE == 1 ~ "Caucasian", RACE == 2 ~ "Asian", RACE == 3 ~ "African American/Black", TRUE ~ as.character(RACE))) %>% head()
+
+
+#' # The Summary Function
+#' 
+summary(birthweight$BWT)
+summary(birthweight)
+
+summarize(birthweight, age= median(AGE))
+summarize(birthweight, age= median(AGE), height=median(HT), meanage= mean(AGE))
+group_by(birthweight, SMOKE)
+group_by(birthweight, SMOKE) %>% summarize(birthweight, age= median(AGE), height=median(HT), meanage= mean(AGE))
+group_by(birthweight, SMOKE) %>% summarize(across(where(is.numeric),mean))
+group_by(birthweight, SMOKE) %>% summarize(across(where(is.numeric),sd))
+group_by(birthweight, SMOKE) %>% summarize(across(where(is.numeric),mean, .names = '{.col}_mean')
+                                          ,(across(where(is.numeric),sd, .names = '{.col}_sd')))
+    
+group_by(birthweight, SMOKE) %>% summarize(across(where(is.numeric),list(mean,sd)))                                         
+group_by(birthweight, SMOKE) %>% summarize(across(where(is.numeric),list(Mn=mean,StD=sd,Md=median,InQR=IQR)))  %>% View                                     
+                                                                                
+
+
+
+
